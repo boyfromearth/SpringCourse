@@ -16,6 +16,11 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
+    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
+    @CollectionTable(name="user_role",joinColumns = @JoinColumn(name="user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
     public Long getId() {
         return id;
     }
@@ -40,12 +45,12 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isActive();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return isActive();
     }
 
     public void setUsername(String username) {
@@ -83,9 +88,6 @@ public class User implements UserDetails {
 
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class,fetch = FetchType.LAZY)
-    @CollectionTable(name="user_role",joinColumns = @JoinColumn(name="user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+
 
 }

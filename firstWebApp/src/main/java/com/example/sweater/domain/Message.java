@@ -1,9 +1,6 @@
 package com.example.sweater.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Message {
@@ -11,20 +8,29 @@ public class Message {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    public Message(String text, String tag) {
-        this.text = text;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public Message(String text, String tag,User user) {
+        this.author = user;
         this.tag = tag;
+        this.text = text;
     }
 
-    public User getUser() {
-        return user;
+    public String getAuthorName(){
+        return author != null ? author.getUsername() : "<none>";
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public User getAuthor() {
+        return author;
     }
 
-    private User user;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+
 
 
     public Message() {
