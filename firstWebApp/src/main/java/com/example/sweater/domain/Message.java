@@ -12,11 +12,15 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User author;
 
+   private String filename;
+
     public Message(String text, String tag,User user) {
         this.author = user;
         this.tag = tag;
         this.text = text;
     }
+    private String text;
+    private String tag;
 
     public String getAuthorName(){
         return author != null ? author.getUsername() : "<none>";
@@ -60,7 +64,12 @@ public class Message {
         this.tag = tag;
     }
 
-    private String text;
-    private String tag;
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
 }
